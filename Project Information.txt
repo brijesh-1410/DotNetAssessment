@@ -1,0 +1,7 @@
+BackEnd:
+--------------
+.Net Core
+
+FrontEnd:
+--------------
+Angular 11

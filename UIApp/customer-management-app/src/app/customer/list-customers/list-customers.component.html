@@ -1,0 +1,58 @@
+<h5 style="color: grey;">CUSTOMERS</h5>
+<div class="input-group mb-3">
+  <input type="text" class="form-control" placeholder="Search customers" [(ngModel)]="searchTerm" (ngModelChange)="filterCustomers()" />
+</div>
+<div style="text-align:right;color: gray;">{{filteredCustomers.length}} record found out of {{customers.length}} records</div>
+<table class="table table-striped">
+  <tr>
+    <!-- <th (click)="sort('customerId')">Customer ID</th> -->
+      <th (click)="onSort('firstName')">First Name ↕️</th>
+      <th (click)="onSort('lastName')">Last Name ↕️</th>
+      <th (click)="onSort('email')">Email ↕️</th>
+      <th (click)="onSort('phoneNumber')">Phone Number ↕️</th>
+      <th (click)="onSort('countryCode')">Country Code ↕️</th>
+      <th (click)="onSort('gender')">Gender ↕️</th>
+      <th (click)="onSort('balance')">Balance ↕️</th>
+    <th>Actions</th>
+  </tr>
+  <tr *ngIf="filteredCustomers.length == 0">
+    <td colspan="8">No Content Available</td>
+  </tr>
+  <!-- <tr *ngFor="let customer of customers; let i = index"> -->
+  <tr *ngFor="let customer of filteredCustomers.slice((filterParam.currentPage - 1) * filterParam.itemsPerPage, filterParam.currentPage * filterParam.itemsPerPage)">
+    <!-- <td>{{ customer.customerId }}</td> -->
+    <td>{{ customer.firstName }}</td>
+    <td>{{ customer.lastName }}</td>
+    <td>{{ customer.email }}</td>
+    <td>{{ customer.phoneNumber }}</td>
+    <td>{{ customer.countryCode }}</td>
+    <td>{{ customer.gender }}</td>
+    <td>{{ customer.balance }}</td>
+    <td>
+      <button class="btn btn-primary" (click)="onEdit(customer)">✎</button>
+      <button class="btn btn-danger" (click)="onDelete(customer.customerId)">╳</button>
+    </td>
+  </tr>
+</table>
+
+<!-- Pagination -->
+<pagination
+  [totalItems]="customers.length"
+  [(ngModel)]="filterParam.currentPage"
+  [itemsPerPage]="filterParam.itemsPerPage"
+  (pageChanged)="onPageChanged($event)"
+  [maxSize]="5"
+  [boundaryLinks]="true"
+  [rotate]="false"
+  [directionLinks]="true"
+  [previousText]="'‹'"
+  [nextText]="'›'"
+  [firstText]="'«'"
+  [lastText]="'»'"
+></pagination>
+
+
+
+
+
+

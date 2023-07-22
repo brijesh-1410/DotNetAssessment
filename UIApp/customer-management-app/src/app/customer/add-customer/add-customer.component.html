@@ -1,0 +1,119 @@
+<h5 style="color: gray;">{{ editCustomer ? 'EDIT CUSTOMER' : 'NEW CUSTOMER' }}</h5>
+<form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="needs-validation">
+  <div class="form-group">
+    <label>Salutation:</label>
+    <select formControlName="salutation" class="form-control">
+      <option value="" disabled>Select salutation</option>
+      <option value="Mr.">Mr.</option>
+      <option value="Mrs.">Mrs.</option>
+      <option value="Ms.">Ms.</option>
+      <option value="Dr.">Dr.</option>
+    </select>
+    <div *ngIf="customerForm.get('salutation')!.invalid && customerForm.get('salutation')!.touched" class="text-danger">
+        Salutation is required.
+    </div>
+  </div>
+  <div class="form-group">
+    <label>First Name:</label>
+    <input type="text" formControlName="firstName" class="form-control" required/>
+    <div *ngIf="customerForm.get('firstName')!.invalid && customerForm.get('firstName')!.touched" class="text-danger">
+        First Name is required.
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Last Name:</label>
+    <input type="text" formControlName="lastName" class="form-control" required/>
+    <div *ngIf="customerForm.get('lastName')!.invalid && customerForm.get('lastName')!.touched" class="text-danger">
+        Last Name is required.
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Email:</label>
+    <input type="email" formControlName="email" class="form-control" required/>
+    <div *ngIf="customerForm.get('email')!.invalid && customerForm.get('email')!.touched" class="text-danger">
+        Please enter a valid email address.
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Phone Number:</label>
+    <input type="text" formControlName="phoneNumber" class="form-control" required pattern="^[0-9]+$"/>
+    <div *ngIf="customerForm.get('phoneNumber')!.invalid && customerForm.get('phoneNumber')!.touched" class="text-danger">
+        Please enter a valid Phone Number.
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Country Code:</label>
+    <select formControlName="countryCode" class="form-control" required>
+        <option value="" disabled>Select Country Code</option>
+        <option value="US">US</option>
+        <!-- <option value="IND">IND</option>
+        <option value="UK">UK</option> -->
+        <!-- passing any other value here is giving error from Azure API so keeping it only US-->
+    </select>
+    <div *ngIf="customerForm.get('countryCode')!.invalid && customerForm.get('countryCode')!.touched" class="text-danger">
+      Country Code is required.
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Gender:</label>
+    <select formControlName="gender" class="form-control" required>
+      <option value="" disabled>Select gender</option>
+      <option value="m">Male</option>
+      <option value="f">Female</option>
+    </select>
+    <div *ngIf="customerForm.get('gender')!.invalid && customerForm.get('gender')!.touched" class="text-danger">
+      Gender is required.
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Balance:</label>
+    <input type="number" formControlName="balance" step="0.01" required  class="form-control"  pattern="^[0-9]+(\.[0-9]{1,2})?$"/>
+    <div *ngIf="customerForm.get('balance')!.invalid && customerForm.get('balance')!.touched" class="text-danger">
+        Please enter a valid Balance.
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Currency:</label>
+    <select formControlName="currency" class="form-control" required>
+      <option value="" disabled>Select currency</option>
+      <option value="USD">USD</option>
+      <option value="EUR">EUR</option>
+      <option value="GBP">GBP</option>
+      <option value="INR">INR</option>
+      <!-- Add other currencies as needed -->
+    </select>
+    <div *ngIf="customerForm.get('currency')!.invalid && customerForm.get('currency')!.touched" class="text-danger">
+      Currency is required.
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Password:</label>
+    <input type="password" formControlName="password" class="form-control" required/>
+    <div *ngIf="customerForm.get('password')!.invalid && customerForm.get('password')!.touched" class="text-danger">
+        Please enter a valid password.
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Language:</label>
+    <select formControlName="language" class="form-control" required>
+      <option value="" disabled>Select language</option>
+      <option value="English">English</option>
+      <option value="Spanish">Spanish</option>
+      <option value="French">French</option>
+      <option value="Hindi">Hindi</option>
+      <!-- Add other languages as needed -->
+    </select>
+    <div *ngIf="customerForm.get('language')!.invalid && customerForm.get('language')!.touched" class="text-danger">
+      Language is Required.
+  </div>
+  </div>
+  <div class="row">
+    <div class="col-md-5"><button type="submit" [disabled]="customerForm.invalid" class="btn btn-primary">Save User</button></div>
+    <div class="col-md-2"><button type="button" class="btn btn-secondary" (click)="onClear()">Reset</button></div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <a routerLink="../list-customer" class="btn btn-secondary" routerLinkActive="active">Back to Customers</a>
+    </div>
+  </div>
+</form>

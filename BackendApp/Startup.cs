@@ -28,37 +28,28 @@ namespace BackendApp
 
         public IConfiguration Configuration { get; }
 
-        public string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+        private string AllowSpecificOrigins = "AllowSpecificOrigins";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options =>
             {
-                options.AddDefaultPolicy(builder =>
-                {
-                    // Allow requests from the specified origin (your frontend application)
-                    builder.WithOrigins("http://localhost:4200")
-                           .AllowAnyHeader()
-                           .AllowAnyMethod();
-                });
+                options.AddPolicy(name: AllowSpecificOrigins,
+                                  policy =>
+                                  {
+                                      //policy.WithOrigins("http://localhost:4200");
+                                      policy.WithOrigins(Configuration.GetValue<string>("Dev:UIAppUrl"))
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod();
+
+                                  });
             });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BackendApp", Version = "v1" });
             });
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy(name: MyAllowSpecificOrigins,
-            //                      policy =>
-            //                      {
-            //                          policy.WithOrigins("http://localhost:4200/")
-            //                                      .AllowAnyHeader()
-            //                                      .AllowAnyMethod();
-            //                      });
-            //});
-            
 
             services.AddScoped<IApiCaller,ApiCaller>();
             services.AddScoped<ICustomerService, CustomerService>();
@@ -76,7 +67,8 @@ namespace BackendApp
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BackendApp v1"));
             }
 
-            app.UseCors();
+            //app.UseCors();
+            app.UseCors(AllowSpecificOrigins);
 
             app.UseHttpsRedirection();
 
@@ -88,8 +80,6 @@ namespace BackendApp
             {
                 endpoints.MapControllers();
             });
-
-            //app.UseCors(MyAllowSpecificOrigins);
             
         }
     }

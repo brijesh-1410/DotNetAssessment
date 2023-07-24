@@ -20,3 +20,7 @@ form {
     display: block;
     margin-top: 20px;
   }
+
+  .mandatory-field{
+    color: red;
+  }

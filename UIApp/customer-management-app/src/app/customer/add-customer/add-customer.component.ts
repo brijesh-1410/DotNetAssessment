@@ -30,14 +30,14 @@ export class AddCustomerComponent {
     this.customerForm = this.formBuilder.group({
       customerId: ['0', Validators.required],
       salutation: ['',dropdownValidator()], // Add salutation field
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      firstName: ['', [Validators.required,Validators.maxLength(30)]],
+      lastName: ['', [Validators.required,Validators.maxLength(30)]],
+      email: ['', [Validators.required, Validators.email,Validators.maxLength(50)]],
+      phoneNumber: ['', [Validators.required, Validators.maxLength(20),Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
       countryCode: ['', dropdownValidator()],
       gender: ['', dropdownValidator()],
-      balance: ['', [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')]],
-      password: ['', Validators.required], // Add password field
+      balance: ['', [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$'),Validators.maxLength(20)]],
+      password: ['', [Validators.required,Validators.maxLength(20)]], // Add password field
       language: ['', dropdownValidator()], // Add language field
       currency: ['', dropdownValidator()], // Add currency field
     });
@@ -115,7 +115,8 @@ export class AddCustomerComponent {
       }
     }
     else{
-      this.notification.warning('Invalid input details!!', 'Error');
+      this.customerForm.markAllAsTouched();
+      this.notification.warning('Invalid input details!! ', 'Error');
     }
   }
 

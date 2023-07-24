@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Customer } from './customer.model';
 import { Repsonse } from '../Response.model';
+import { API_BASE_URL } from '../../api.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CustomerService {
 
-  private apiUrl = 'https://localhost:44341/api'; // Replace this with your actual API URL
+  private apiUrl = API_BASE_URL; // Replace this with your actual API URL
 
   constructor(private http: HttpClient) {}
 
@@ -18,20 +19,14 @@ export class CustomerService {
   }
 
   addCustomer(customer: Customer): Observable<Repsonse> {
-    debugger
-    var result = this.http.post<Repsonse>(`${this.apiUrl}/customer`, customer);
-    return result;
+    return this.http.post<Repsonse>(`${this.apiUrl}/customer`, customer);
   }
 
   editCustomer(customer: Customer): Observable<Repsonse> {
-    debugger
-    var result =  this.http.put<Repsonse>(`${this.apiUrl}/customer/`, customer);
-    return result;
+    return this.http.put<Repsonse>(`${this.apiUrl}/customer/`, customer);
   }
 
   deleteCustomer(customerId: string): Observable<Repsonse> {
-    debugger
-    var result = this.http.delete<Repsonse>(`${this.apiUrl}/customer/${customerId}`);
-    return result;
+    return this.http.delete<Repsonse>(`${this.apiUrl}/customer/${customerId}`);
   }
 }
